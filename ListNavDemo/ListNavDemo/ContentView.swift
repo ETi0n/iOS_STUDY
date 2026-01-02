@@ -11,11 +11,15 @@ struct ContentView: View {
     @State var carStore = CarStore(cars: carData)
     
     var body: some View {
-        List {
-            ForEach(carStore.cars) { car in
-                NavigationLink(value: car) {
-                    ListCell(car: car)
+        NavigationStack{
+            List {
+                ForEach(carStore.cars) { car in
+                    NavigationLink(value: car) {
+                        ListCell(car: car)
+                    }
                 }
+            }
+            .navigationDestination(for: Car.self) { car in CarDetail(selectedCar: car)
             }
         }
     }

@@ -15,7 +15,8 @@ struct CarDetail: View {
             Section(header: Text("Car Details")){
                 Image(selectedCar.imageName)
                     .resizable()
-                    .cornerRadius(12.0) // 모서리 처리
+                    // conerRadius의 최신 코드 update
+                    .clipShape(.rect(cornerRadius: 12)) // 모서리 처리
                     .aspectRatio(contentMode: .fit)
                     .padding() // 들여쓰기
                 
