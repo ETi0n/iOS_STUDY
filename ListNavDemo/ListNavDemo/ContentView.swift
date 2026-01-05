@@ -9,14 +9,32 @@ import SwiftUI
 
 struct ContentView: View {
     @State var carStore = CarStore(cars: carData)
+    @State var stackPath = NavigationPath() // 경로 추적용 변수
     
     var body: some View {
-        NavigationStack{
+        NavigationStack(path: $stackPath){ // 스택 페스를 바인딩
             List {
                 ForEach(carStore.cars) { car in
                     NavigationLink(value: car) {
                         ListCell(car: car)
                     }
+                }
+            }
+            .navigationTitle(Text("EV Cars"))
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading, content: {
+                    NavigationLink(value: "Add Car") {
+                        Text("Add")
+                            .foregroundStyle(.blue)
+                    }
+                })
+                ToolbarItem(placement: .topBarTrailing, content: {
+                    EditButton()
+                })
+            }
+            .navigationDestination(for: String.self) { menuString in
+                if menuString == "Add Car" {
+                    AddNewCar(carStore: carStore, path: $stackPath)
                 }
             }
             .navigationDestination(for: Car.self) { car in CarDetail(selectedCar: car)
